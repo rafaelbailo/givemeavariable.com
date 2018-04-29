@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Give me a Variable!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.js"></script>
+    <script src="https://unpkg.com/vue-clipboard2@0.1.0/dist/vue-clipboard.min.js"></script>
+    <script src="https://unpkg.com/vue-toasted"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      #wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 16px 0;
+        font-size: 16px;
+      }
+
+      #wrapper-1 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      .message {
+        font-size: 28px;
+      }
+
+      .variable {
+        font-size: 80px;
+        margin: 20px 0;
+        height: 124px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="wrapper">
+        <div id="wrapper-1">
+          <div class="container">
+            <div class="message">
+              Your variable is:
+            </div>
+            <div v-katex="variable" class="variable"></div>
+            <div class="toolbar">
+              <button
+                class="big ui green button"
+                v-clipboard:copy="variable"
+                v-clipboard:success="onCopy"
+                v-clipboard:error="onCopyError">
+                Copy the LaTeX code!
+              </button>
+              <button v-on:click="newVariable" class="big ui button">
+                Give me another variable!
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="footer">
+          Made with love by {{ credits }}.
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      Vue.use(Toasted)
+      Vue.directive('katex', function (el, binding) {
+        var displayStyle = binding.arg === 'display' ? true : false
+
+        if (binding.value.expression) {
+          if (binding.value.options) {
+            katex.render(binding.value.expression, el, {
+              displayMode: displayStyle,
+              ...binding.value.options
+            })
+          } else {
+            katex.render(binding.value.expression, el, {
+              displayMode: displayStyle
+            })
+          }
+        } else {
+          katex.render(binding.value, el, {
+            displayMode: displayStyle
+          })
+        }
+      });
+
+      const variables = [
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+        'v',
+        'w',
+        'x',
+        'y',
+        'z',
+        'A',
+        'B',
+        'C',
+        'D',
+        'E',
+        'F',
+        'G',
+        'H',
+        'I',
+        'J',
+        'K',
+        'L',
+        'M',
+        'N',
+        'O',
+        'P',
+        'Q',
+        'R',
+        'S',
+        'T',
+        'U',
+        'V',
+        'W',
+        'X',
+        'Y',
+        'Z',
+        '\\alpha',
+        '\\beta',
+        '\\gamma',
+        '\\delta',
+        '\\epsilon',
+        '\\varepsilon',
+        '\\zeta',
+        '\\eta',
+        '\\theta',
+        '\\vartheta',
+        '\\iota',
+        '\\kappa',
+        '\\lambda',
+        '\\mu',
+        '\\nu',
+        '\\xi',
+        '\\pi',
+        '\\varpi',
+        '\\rho',
+        '\\varrho',
+        '\\sigma',
+        '\\varsigma',
+        '\\tau',
+        '\\upsilon',
+        '\\phi',
+        '\\varphi',
+        '\\chi',
+        '\\psi',
+        '\\omega',
+        '\\Gamma',
+        '\\varGamma',
+        '\\Delta',
+        '\\varDelta',
+        '\\Theta',
+        '\\varTheta',
+        '\\Lambda',
+        '\\varLambda',
+        '\\Xi',
+        '\\varXi',
+        '\\Pi',
+        '\\varPi',
+        '\\Sigma',
+        '\\varSigma',
+        '\\Upsilon',
+        '\\varUpsilon',
+        '\\Phi',
+        '\\varPhi',
+        '\\Psi',
+        '\\varPsi',
+        '\\Omega',
+        '\\varOmega'
+      ];
+
+      function randomVariable() {
+        return variables[Math.floor(Math.random() * variables.length)];
+      }
+
+      var app = new Vue({
+        el: '#app',
+        data: {
+          variable: randomVariable(),
+          credits: shuffle(['Henri Maurer', 'Rafael Bailo']).join(' and '),
+        },
+        mounted: function () {
+          
+        },
+        methods: {
+          newVariable: function() {
+            this.variable = randomVariable();
+            
+          },
+          onCopy: function () {
+            this.$toasted.show('Copied to clipboard!', {
+              position: "bottom-center",
+              duration : 5000
+            });
+          },
+          onCopyError: function () {
+            this.$toasted.show('Oops, could not copy; sorry :(', {
+              position: "bottom-center"
+            });
+          }
+        }
+      });
+
+      function shuffle(a) {
+          var j, x, i;
+          for (i = a.length - 1; i > 0; i--) {
+              j = Math.floor(Math.random() * (i + 1));
+              x = a[i];
+              a[i] = a[j];
+              a[j] = x;
+          }
+          return a;
+      }
+    </script>
+  </body>
+</html>
