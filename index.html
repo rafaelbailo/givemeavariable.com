@@ -73,7 +73,7 @@
           </div>
         </div>
         <div class="footer">
-          Made with love by {{ credits }}.
+          Made with love by <span v-html="credits"></span>.
         </div>
       </div>
     </div>
@@ -215,7 +215,10 @@
         el: '#app',
         data: {
           variable: randomVariable(),
-          credits: shuffle(['Henri Maurer', 'Rafael Bailo']).join(' and '),
+          credits: shuffle([
+            '<a href="http://github.com/hmaurer" target="_blank">Henri Maurer</a>',
+            '<a href="https://github.com/rafaelbailo" target="_blank">Rafael Bailo</a>'
+          ]).join(' and '),
         },
         mounted: function () {
           
