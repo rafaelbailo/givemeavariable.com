@@ -44,8 +44,17 @@
 
       .variable {
         font-size: 80px;
-        margin: 20px 0;
+        margin: 50px 0 10px 0;
         height: 124px;
+      }
+
+      .variable-label {
+        display: inline-block;
+        margin-bottom: 50px;
+        background: #eee;
+        padding: 4px 8px;
+        border-radius: 4px;
+        opacity: 0.6;
       }
     </style>
   </head>
@@ -58,6 +67,7 @@
               Your variable is:
             </div>
             <div v-katex="variable" class="variable"></div>
+            <div class="variable-label">{{ variable }}</div>
             <div class="toolbar">
               <button
                 class="big ui green button"
@@ -73,7 +83,7 @@
           </div>
         </div>
         <div class="footer">
-          Made with love by <span v-html="credits"></span>.
+          Made with love by <span v-html="credits"></span> over dinner in Edinburgh.
         </div>
       </div>
     </div>
