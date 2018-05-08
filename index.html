@@ -102,12 +102,15 @@
           <div v-katex="variable" class="variable"></div>
           <div class="variable-label">{{ variable }}</div>
           <div class="toolbar">
-            <button class="big ui green button" v-clipboard:copy="variable" v-clipboard:success="onCopy" v-clipboard:error="onCopyError">
-                Copy the LaTeX code!
-              </button>
-            <button v-on:click="newVariable" class="big ui button">
-                Give me another variable!
-              </button>
+              <div class="big ui buttons">
+                <button class="ui green button" v-clipboard:copy="variable" v-clipboard:success="onCopy" v-clipboard:error="onCopyError">
+                  Copy the LaTeX code!
+                </button>
+                <div class="or" data-text="or"></div>
+                <button v-on:click="newVariable" class="ui button">
+                  Give me another variable!
+                </button>
+              </div>
           </div>
         </div>
       </div>
